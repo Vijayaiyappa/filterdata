@@ -1,0 +1,46 @@
+class pan:
+    @staticmethod
+    def filt():
+         
+         import pandas as pd
+         
+         
+         con = sqlite3.connect("C:/busfinal/viche/db.sqlite3")
+         df = pd.read_sql_query("SELECT  Middle_route, source, destination, arrive_t, leave_t, Busname from bus_data_given_by_user", con)
+         array_send=[]
+         pf=df[df.duplicated()]
+         #print(pf)
+         #print("printing the name")
+
+         #filtered_data = pd.DataFrame(columns = ['Middle_route', 'source', 'destination','arrive_t','leave_t','Busname'], 
+                   
+  
+         pds=df[df.duplicated()].drop_duplicates()
+         name=pds.iloc[0][1] # change first index to chnage the name 
+         """
+         print("first name 0 index row1")
+         print(name)
+         print("_____________")
+         print(pds.iloc[0]) 
+         print("____Duplicates droped____")
+         print(pds)
+         print("_____________")
+         """
+        
+         for i in pds.iloc:
+             print(i[0])
+             name=i[0]
+             same5=df.loc[(df["Middle_route"]==i[0]) &( df["source"]==i[1]) & ( df["destination"]==i[2]) & ( df["arrive_t"]==i[3])& ( df["leave_t"]==i[4]) & ( df["Busname"]==i[5]) ]
+             
+          
+             count=len(same5.loc[same5["Middle_route"]==name].index)
+            
+             same_data=[]
+             if(count>=5):
+                 
+                 fit=same5.loc[same5["Middle_route"]==name].drop_duplicates()
+                
+                 array_send.append([same5.iat[0,0],same5.iat[0,1],same5.iat[0,2],same5.iat[0,3],same5.iat[0,4],same5.iat[0,5]])
+                
+         print("boo",array_send)
+         return array_send
