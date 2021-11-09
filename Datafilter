@@ -1,46 +1,56 @@
-class pan:
-    @staticmethod
-    def filt():
+#filtering repeated rows whose rows count >= 2 in pandas
+
+class filter_un_data:
+     @staticmethod
+     def filt():
          
          import pandas as pd
          
+         df = pd.read_csv('https://raw.githubusercontent.com/nkmk/python-snippets/df339a7fdbc65d1a7a310103a0f4a795dc3321a5/notebook/data/src/sample_pandas_normal.csv')
+         df = df.append({'name': 'Dave', 'age': 68, 'state': 'TX', 'point': 70}, ignore_index=True)
+
+         df = df.append({'name': 'Dave', 'age': 68, 'state': 'TX', 'point': 70}, ignore_index=True)
+         df=df.append({'name': 'Dave', 'age': 68, 'state': 'TX', 'point': 70}, ignore_index=True)
+
+         df = df.append({'name': 'soms', 'age': 68, 'state': 'TX', 'point': 70}, ignore_index=True)
+
+         df = df.append({'name': 'soms', 'age': 68, 'state': 'TX', 'point': 70}, ignore_index=True)
+
+         df = df.append({'name': 'Frank', 'age': 30, 'state': 'NY', 'point': 57}, ignore_index=True)
+         df = df.append({'name': 'Frank', 'age': 30, 'state': 'NY', 'point': 57}, ignore_index=True)
+         print(df)
+         print()
+         print("All repeated Rows in Datasets")
+         print("_________________________________")
          
-         con = sqlite3.connect("C:/busfinal/viche/db.sqlite3")
-         df = pd.read_sql_query("SELECT  Middle_route, source, destination, arrive_t, leave_t, Busname from bus_data_given_by_user", con)
+         print()
          array_send=[]
          pf=df[df.duplicated()]
-         #print(pf)
-         #print("printing the name")
 
-         #filtered_data = pd.DataFrame(columns = ['Middle_route', 'source', 'destination','arrive_t','leave_t','Busname'], 
-                   
-  
          pds=df[df.duplicated()].drop_duplicates()
-         name=pds.iloc[0][1] # change first index to chnage the name 
-         """
-         print("first name 0 index row1")
-         print(name)
-         print("_____________")
-         print(pds.iloc[0]) 
-         print("____Duplicates droped____")
          print(pds)
-         print("_____________")
-         """
+         #name=pds.iloc[0][1] # change first index to chnage the name 
+         
         
          for i in pds.iloc:
-             print(i[0])
-             name=i[0]
-             same5=df.loc[(df["Middle_route"]==i[0]) &( df["source"]==i[1]) & ( df["destination"]==i[2]) & ( df["arrive_t"]==i[3])& ( df["leave_t"]==i[4]) & ( df["Busname"]==i[5]) ]
              
-          
-             count=len(same5.loc[same5["Middle_route"]==name].index)
-            
+             name=i[0]
+           
+             same5=df.loc[(df["name"]==i[0]) &( df["age"]==i[1]) & (df["state"]==i[2]) & (df["point"]==i[3]) ]
+             
+             count=len(same5.loc[same5["name"]==name].index)
+             
              same_data=[]
-             if(count>=5):
-                 
-                 fit=same5.loc[same5["Middle_route"]==name].drop_duplicates()
-                
-                 array_send.append([same5.iat[0,0],same5.iat[0,1],same5.iat[0,2],same5.iat[0,3],same5.iat[0,4],same5.iat[0,5]])
-                
-         print("boo",array_send)
+             if(count>=3):
+               
+                 array_send.append([same5.iat[0,0],same5.iat[0,1],same5.iat[0,2],same5.iat[0,3]]) # converted to a list
+         
+         
          return array_send
+lit= filter_un_data.filt()
+print()
+print("Repeated rows that is > = 2")
+print("_________________________________________")
+print()
+for data in lit:
+    print(data)
